@@ -5,7 +5,7 @@
       Welcome to {{ title }}!
     </h1>
   </div>
-  <mat-tab-group>
+  <mat-tab-group [selectedIndex]="selectedTab" (selectedTabChange)="onTabChanged($event)" >
     <mat-tab>
       <ng-template mat-tab-label>
         <fa-layers [fixedWidth]="true">
@@ -14,8 +14,18 @@
         </fa-layers>
         <span>Get/Renew Token</span>
       </ng-template>
-      <form id="getTokenForm">
+      <form #form="ngForm" (ngSubmit)="onSubmit(form)">
         <div class="row" style="padding: 10px 0;">
+          <div class="col">
+            <mat-form-field class="full-width">
+              <mat-select placeholder="Select Favorite (optional)" [(ngModel)]="favorite"
+                (selectionChange)="favoriteChanged($event)" name="favorite" id="favorite">
+                <mat-option value="mobile">Mobile API</mat-option>
+                <mat-option value="WT1C">WT1C</mat-option>
+                <mat-option value="DIYH">DIYH</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
           <div class="col">
             <mat-slide-toggle [(ngModel)]="useRefreshToken" (change)="useRefreshTokenChange($event)"
               name="useRefreshToken" id="useRefreshToken">Using a refresh token
@@ -27,10 +37,12 @@
             </mat-slide-toggle>
           </div>
         </div>
+
         <div class="row">
           <div class="col">
             <mat-form-field class="full-width">
               <input matInput placeholder="API url" name="apiUrl" id="apiUrl" [(ngModel)]="apiUrl" required>
+              <!--(blur)="onBlur(nameVariable)" #nameVariable="ngModel" onBlur(field: NgModel) { {field.valid ...}-->
               <mat-icon matSuffix><a href="#" matTooltip="Url should end in /token" matTooltipPosition="left">error</a>
               </mat-icon>
             </mat-form-field>
@@ -105,12 +117,20 @@
         </div>
         <div class="row">
           <div class="col">
+            <div [hidden]="!postError" class="alert alert-danger">
+              {{postErrorMessage}}
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
             <button mat-flat-button color="primary">Send request</button>
+            <!--(click)="getTokenRequest()"-->
           </div>
         </div>
       </form>
     </mat-tab>
-    <mat-tab>
+    <mat-tab *ngIf="tokenFullWrapper.access_token">
       <ng-template mat-tab-label>
         <fa-layers [fixedWidth]="true">
           <fa-icon [icon]="faCircle"></fa-icon>
@@ -123,57 +143,76 @@
           <mat-accordion multi="true">
             <mat-expansion-panel [expanded]="true">
               <mat-expansion-panel-header>
-                Access Token
+                <label class="mat-h3">Access Token</label>
               </mat-expansion-panel-header>
               <form>
                 <mat-form-field class="full-width">
-                  <textarea id="accessToken" name="accessToken" matInput
-                    placeholder="Accesss Token Encrypted Value"></textarea>
+                  <textarea id="accessToken" name="accessToken" matInput placeholder="Accesss Token Encrypted Value"
+                    [(ngModel)]="tokenFullWrapper.access_token" matTextareaAutosize></textarea>
                 </mat-form-field>
-                Type: <label id="tokenType"></label>
-                Expires in: <label id="expiresIn"></label>
+                <label class="mat-body-strong">Type:</label>  {{tokenFullWrapper.token_type}}
+                <label class="mat-body-strong">Expires in: </label> {{tokenFullWrapper.expires_in}} seconds
+                <label class="mat-body-strong">Issued: </label> {{tokenFullWrapper.token_issued}}
+                <label class="mat-body-strong">Expires: </label> {{tokenFullWrapper.token_expires}}
                 <div class="row" style="padding-top: 10px;">
-                  <button mat-flat-button color="primary">Use</button>
+                  <button mat-flat-button color="primary" (click)="useTokenGetData()">Use</button>
                 </div>
               </form>
             </mat-expansion-panel>
             <mat-expansion-panel [expanded]="true">
               <mat-expansion-panel-header>
-                Refresh Token
+                <label class="mat-h3">Refresh Token</label>
               </mat-expansion-panel-header>
               <form>
                 <mat-form-field class="full-width">
-                  <textarea id="refreshToken" name="refreshToken" matInput
-                    placeholder="Refresh Token Encrypted Value"></textarea>
+                  <textarea id="refreshToken" name="refreshToken" matInput placeholder="Refresh Token Encrypted Value"
+                    matTextareaAutosize matAutosizeMinRows=2 [(ngModel)]="tokenFullWrapper.refresh_token"></textarea>
                 </mat-form-field>
-                Issued: <label id="tokenType"></label>
-                Expires in: <label id="expiresIn"></label>
+                Issued:
+                Expires in:
                 <div class="row" style="padding-top: 10px;">
-                  <button mat-flat-button color="primary">Use</button>
+                  <button mat-flat-button color="primary" (click)="useRefreshTokenGetToken()">Use</button>
                 </div>
               </form>
             </mat-expansion-panel>
             <mat-expansion-panel [expanded]="true">
               <mat-expansion-panel-header>
-                Claims
+                <label class="mat-h3">Claims</label>
               </mat-expansion-panel-header>
               <form>
-
+                <mat-form-field class="full-width">
+                  <textarea id="claims" name="claims" matInput matTextareaAutosize matAutosizeMinRows=2
+                    [(ngModel)]="tokenFullWrapper.claims"></textarea>
+                </mat-form-field>
               </form>
             </mat-expansion-panel>
             <mat-expansion-panel [expanded]="true">
               <mat-expansion-panel-header>
-                Settings
+                <label class="mat-h3">Settings</label>
               </mat-expansion-panel-header>
               <form>
-
+                <mat-form-field class="full-width">
+                        <textarea id="settings" name="settings" matInput matTextareaAutosize matAutosizeMinRows=2
+                          [(ngModel)]="tokenFullWrapper.settings"></textarea>
+                </mat-form-field>
+              </form>
+            </mat-expansion-panel>
+            <mat-expansion-panel [expanded]="true">
+              <mat-expansion-panel-header>
+                <label class="mat-h3">Apps</label>
+              </mat-expansion-panel-header>
+              <form>
+                    <mat-form-field class="full-width">
+                      <textarea id="apps" name="apps" matInput matTextareaAutosize matAutosizeMinRows=2
+                        [(ngModel)]="tokenFullWrapper.apps"></textarea>
+                    </mat-form-field>
               </form>
             </mat-expansion-panel>
           </mat-accordion>
         </div>
       </div>
     </mat-tab>
-    <mat-tab>
+    <mat-tab *ngIf="tokenFullWrapper.access_token">
       <ng-template mat-tab-label>
         <fa-layers [fixedWidth]="true">
           <fa-icon [icon]="faCircle"></fa-icon>
@@ -191,7 +230,7 @@
             </mat-form-field>
           </div>
         </div>
-        <div class="row">
+        <!--         <div class="row">
           <div class="col">
             <mat-form-field class="full-width">
               <mat-select placeholder="Body Content-Type">
@@ -207,7 +246,7 @@
               </mat-select>
             </mat-form-field>
           </div>
-        </div>
+        </div> -->
         <div class="row">
           <div class="col">
             <mat-form-field class="full-width">
@@ -223,7 +262,7 @@
         </div>
       </form>
     </mat-tab>
-    <mat-tab>
+    <mat-tab *ngIf="resourceData">
       <ng-template mat-tab-label>
         <fa-layers [fixedWidth]="true">
           <fa-icon [icon]="faCircle"></fa-icon>
@@ -258,4 +297,8 @@
 <!-- Material Icons
 <mat-icon>favorite</mat-icon>
 https://materializecss.com/icons.html
+ -->
+
+<!-- Material extensions
+https://github.com/angular-material-extensions
  -->
