@@ -23,17 +23,13 @@ export class AppComponent {
   useClientAuthentication = false
 
   useRefreshTokenChange() {
-    // this.useRefreshToken = !this.useRefreshToken
-    //alert(this.useRefreshToken)
     if (this.useRefreshToken) {
       this.grantType = 'refresh_token'
     } else {
       this.grantType = 'password'
     }
   }
-  /*  useClientAuthenticationChange() {
-    this.useClientAuthentication = !this.useClientAuthentication
-  } */
+
   grantTypeChanged() {
     this.useRefreshToken = this.grantType === 'refresh_token'
   }
