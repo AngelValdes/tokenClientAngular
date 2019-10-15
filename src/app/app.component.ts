@@ -19,9 +19,8 @@ export class AppComponent implements OnInit {
   favorites = []
   favoriteSelected = ''
   apiUrls: []
-  ContentType = 'x-www-form-urlencoded'
   grantType = 'password'
-  apiUrl = 'http://api.dadeschools.net/token'
+  apiUrl = ''
   clientId = 'JS'
   clientSecret = 'secret'
   username = ''
@@ -29,28 +28,29 @@ export class AppComponent implements OnInit {
   useRefreshTokenValue = ''
   useRefreshToken = false
   useClientAuthentication = false
+  bodyData = ''
   postError = false
   postErrorMessage = ''
+  resourceData: ''
   tokenFullWrapper = {
     access_token: '',
     token_type: '',
     expires_in: null,
     token_issued: '',
     token_expires: '',
+    role: '',
     claims: '',
     settings: '',
     apps: '',
     refresh_token: ''
   }
-  resourceData: ''
-
   constructor(private configService: ConfigService, private tokenService: TokenService) {}
   ngOnInit(): void {
+    this.clearTokenFullWrapper()
     this.configService.getConfig().subscribe(
       (result: Environments) => {
-        // console.log(JSON.stringify(result))
         switch (__env.name) {
-          case 'env':
+          case 'dev':
             this.apiUrls = result.dev.apiUrls
             break
           case 'stag':
@@ -60,7 +60,6 @@ export class AppComponent implements OnInit {
             this.apiUrls = result.prod.apiUrls
             break
         }
-        //console.log(this.apiUrls)
       },
       error => {}
     )
@@ -75,18 +74,16 @@ export class AppComponent implements OnInit {
   grantTypeChanged() {
     this.useRefreshToken = this.grantType === 'refresh_token'
   }
-  /* getTokenRequest() {
-    this.tokenService.getToken().subscribe()
-  } */
   favoriteChanged() {
-    // populate all controls based on profile
     console.log(this.favoriteSelected)
+    this.apiUrl = this.favoriteSelected + '/token'
   }
   onSubmit(form: NgForm) {
-    console.log('in onSubmit:', form.valid)
+    // console.log('in onSubmit:', form.valid)
     if (form.valid) {
       this.postError = false
-      this.tokenService.getToken().subscribe(
+      this.bodyData = `grant_type=${this.grantType}&username=${this.username}&password=${this.passwordValue}&client_id=${this.clientId}&client_secret=${this.clientSecret}`
+      this.tokenService.getToken(this.apiUrl, this.bodyData).subscribe(
         result => {
           console.log('success on component', result)
           this.tokenFullWrapper = result
@@ -104,7 +101,7 @@ export class AppComponent implements OnInit {
   onHttpError(errorResponse: any) {
     console.error('error: ' + errorResponse)
     this.postError = true
-    this.postErrorMessage = errorResponse.error.errorMessage
+    this.postErrorMessage = errorResponse
   }
   onTabChanged(event) {
     this.selectedTab = event.index
@@ -115,10 +112,19 @@ export class AppComponent implements OnInit {
   useRefreshTokenGetToken() {
     this.onTabChanged({ index: 0 })
   }
-  doSomething() {
-    //alert(__env.name)
-    /* this.tokenService.getEnvironment().subscribe()
-    alert(this.environment) */
+  private clearTokenFullWrapper() {
+    this.tokenFullWrapper = {
+      access_token: '',
+      token_type: '',
+      expires_in: null,
+      token_issued: '',
+      token_expires: '',
+      role: '',
+      claims: '',
+      settings: '',
+      apps: '',
+      refresh_token: ''
+    }
   }
 }
 export class Environments {

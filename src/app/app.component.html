@@ -27,7 +27,7 @@
                 name="Favorite"
                 id="Favorite"
               >
-                <mat-option *ngFor="let url of apiUrls" value="url.value">{{
+                <mat-option *ngFor="let url of apiUrls" value="{{ url.value }}">{{
                   url.value
                 }}</mat-option>
               </mat-select>
@@ -270,7 +270,7 @@
                 </div>
               </form>
             </mat-expansion-panel>
-            <mat-expansion-panel [expanded]="true">
+            <mat-expansion-panel [expanded]="true" *ngIf="tokenFullWrapper.claims">
               <mat-expansion-panel-header>
                 <label class="mat-h3">Claims</label>
               </mat-expansion-panel-header>
@@ -287,7 +287,24 @@
                 </mat-form-field>
               </form>
             </mat-expansion-panel>
-            <mat-expansion-panel [expanded]="true">
+            <mat-expansion-panel [expanded]="true" *ngIf="tokenFullWrapper.role">
+              <mat-expansion-panel-header>
+                <label class="mat-h3">Role</label>
+              </mat-expansion-panel-header>
+              <form>
+                <mat-form-field class="full-width">
+                  <textarea
+                    id="role"
+                    name="role"
+                    matInput
+                    matTextareaAutosize
+                    matAutosizeMinRows="2"
+                    [(ngModel)]="tokenFullWrapper.role"
+                  ></textarea>
+                </mat-form-field>
+              </form>
+            </mat-expansion-panel>
+            <mat-expansion-panel [expanded]="true" *ngIf="tokenFullWrapper.settings">
               <mat-expansion-panel-header>
                 <label class="mat-h3">Settings</label>
               </mat-expansion-panel-header>
@@ -304,7 +321,7 @@
                 </mat-form-field>
               </form>
             </mat-expansion-panel>
-            <mat-expansion-panel [expanded]="true">
+            <mat-expansion-panel [expanded]="true" *ngIf="tokenFullWrapper.apps">
               <mat-expansion-panel-header>
                 <label class="mat-h3">Apps</label>
               </mat-expansion-panel-header>
@@ -420,7 +437,7 @@
     </mat-tab>
   </mat-tab-group>
 </mat-card>
-<button (click)="doSomething()"></button>
+
 <!-- FontAwezome
 <fa-icon [icon]="faInfoCircle"></fa-icon> -->
 
