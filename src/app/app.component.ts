@@ -1,20 +1,24 @@
-import { Component } from '@angular/core'
+import { Component, OnInit } from '@angular/core'
 import { NgForm, NgModel } from '@angular/forms'
 import { faCircle as farCircle } from '@fortawesome/free-regular-svg-icons'
 import { faInfoCircle, faCircle } from '@fortawesome/free-solid-svg-icons'
 import { TokenService } from './token.service'
+import { ConfigService } from './config/config.service'
+declare var __env: any
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'tokenClient'
   faInfoCircle = faInfoCircle
   faCircle = faCircle
   selectedTab = 0
-  favorite = ''
+  favorites = []
+  favoriteSelected = ''
+  apiUrls: []
   ContentType = 'x-www-form-urlencoded'
   grantType = 'password'
   apiUrl = 'http://api.dadeschools.net/token'
@@ -39,8 +43,28 @@ export class AppComponent {
     refresh_token: ''
   }
   resourceData: ''
-  constructor(private tokenService: TokenService) {}
 
+  constructor(private configService: ConfigService, private tokenService: TokenService) {}
+  ngOnInit(): void {
+    this.configService.getConfig().subscribe(
+      (result: Environments) => {
+        // console.log(JSON.stringify(result))
+        switch (__env.name) {
+          case 'env':
+            this.apiUrls = result.dev.apiUrls
+            break
+          case 'stag':
+            this.apiUrls = result.stag.apiUrls
+            break
+          case 'prod':
+            this.apiUrls = result.prod.apiUrls
+            break
+        }
+        //console.log(this.apiUrls)
+      },
+      error => {}
+    )
+  }
   useRefreshTokenChange() {
     if (this.useRefreshToken) {
       this.grantType = 'refresh_token'
@@ -51,22 +75,22 @@ export class AppComponent {
   grantTypeChanged() {
     this.useRefreshToken = this.grantType === 'refresh_token'
   }
-  getTokenRequest() {
-    this.tokenService.GetToken().subscribe()
-  }
+  /* getTokenRequest() {
+    this.tokenService.getToken().subscribe()
+  } */
   favoriteChanged() {
     // populate all controls based on profile
-    console.log(this.favorite)
+    console.log(this.favoriteSelected)
   }
   onSubmit(form: NgForm) {
     console.log('in onSubmit:', form.valid)
     if (form.valid) {
       this.postError = false
-      this.tokenService.GetToken().subscribe(
+      this.tokenService.getToken().subscribe(
         result => {
           console.log('success on component', result)
           this.tokenFullWrapper = result
-          this.onTabChanged({index: 1})
+          this.onTabChanged({ index: 1 })
         },
         error => {
           this.onHttpError(error)
@@ -91,4 +115,14 @@ export class AppComponent {
   useRefreshTokenGetToken() {
     this.onTabChanged({ index: 0 })
   }
+  doSomething() {
+    //alert(__env.name)
+    /* this.tokenService.getEnvironment().subscribe()
+    alert(this.environment) */
+  }
+}
+export class Environments {
+  dev: any
+  stag: any
+  prod: any
 }

@@ -1,0 +1,36 @@
+{
+  "dev": {
+    "apiUrls": [
+      {
+        "name": "mobile",
+        "value": "http://dev-api.dadeschools.net"
+      },
+      {
+        "name": "WT1C",
+        "value": "http://dev-webapps.dadeschools.net/wt1c"
+      },
+      {
+        "name": "diyh",
+        "value": "http://dev-webapps.dadeschools.net/diyh"
+      }
+    ],
+    "debugging": true
+  },
+  "prod": {
+    "apiUrls": [
+      {
+        "name": "mobile",
+        "value": ""
+      },
+      {
+        "name": "WT1C",
+        "value": ""
+      },
+      {
+        "name": "diyh",
+        "value": ""
+      }
+    ],
+    "debugging": false
+  }
+}

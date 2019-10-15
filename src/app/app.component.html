@@ -1,16 +1,18 @@
 <!--The content below is only a placeholder and can be replaced.-->
 <mat-card>
   <div style="text-align:center">
-    <h1>
-      Welcome to {{ title }}!
-    </h1>
+    <h1>Welcome to {{ title }}!</h1>
   </div>
-  <mat-tab-group [selectedIndex]="selectedTab" (selectedTabChange)="onTabChanged($event)" >
+  <mat-tab-group [selectedIndex]="selectedTab" (selectedTabChange)="onTabChanged($event)">
     <mat-tab>
       <ng-template mat-tab-label>
         <fa-layers [fixedWidth]="true">
           <fa-icon [icon]="faCircle"></fa-icon>
-          <fa-layers-text content="1" style="color: rgb(255, 255, 255);" transform="shrink-3"></fa-layers-text>
+          <fa-layers-text
+            content="1"
+            style="color: rgb(255, 255, 255);"
+            transform="shrink-3"
+          ></fa-layers-text>
         </fa-layers>
         <span>Get/Renew Token</span>
       </ng-template>
@@ -18,22 +20,34 @@
         <div class="row" style="padding: 10px 0;">
           <div class="col">
             <mat-form-field class="full-width">
-              <mat-select placeholder="Select Favorite (optional)" [(ngModel)]="favorite"
-                (selectionChange)="favoriteChanged($event)" name="favorite" id="favorite">
-                <mat-option value="mobile">Mobile API</mat-option>
-                <mat-option value="WT1C">WT1C</mat-option>
-                <mat-option value="DIYH">DIYH</mat-option>
+              <mat-select
+                placeholder="Select Favorite (optional)"
+                [(ngModel)]="favoriteSelected"
+                (selectionChange)="favoriteChanged($event)"
+                name="Favorite"
+                id="Favorite"
+              >
+                <mat-option *ngFor="let url of apiUrls" value="url.value">{{
+                  url.value
+                }}</mat-option>
               </mat-select>
             </mat-form-field>
           </div>
           <div class="col">
-            <mat-slide-toggle [(ngModel)]="useRefreshToken" (change)="useRefreshTokenChange($event)"
-              name="useRefreshToken" id="useRefreshToken">Using a refresh token
+            <mat-slide-toggle
+              [(ngModel)]="useRefreshToken"
+              (change)="useRefreshTokenChange($event)"
+              name="useRefreshToken"
+              id="useRefreshToken"
+              >Using a refresh token
             </mat-slide-toggle>
           </div>
           <div class="col">
-            <mat-slide-toggle [(ngModel)]="useClientAuthentication" name="useClientAuthentication"
-              id="useClientAuthentication">Using client Authentication
+            <mat-slide-toggle
+              [(ngModel)]="useClientAuthentication"
+              name="useClientAuthentication"
+              id="useClientAuthentication"
+              >Using client Authentication
             </mat-slide-toggle>
           </div>
         </div>
@@ -41,9 +55,19 @@
         <div class="row">
           <div class="col">
             <mat-form-field class="full-width">
-              <input matInput placeholder="API url" name="apiUrl" id="apiUrl" [(ngModel)]="apiUrl" required>
+              <input
+                matInput
+                placeholder="API url"
+                name="apiUrl"
+                id="apiUrl"
+                [(ngModel)]="apiUrl"
+                required
+              />
               <!--(blur)="onBlur(nameVariable)" #nameVariable="ngModel" onBlur(field: NgModel) { {field.valid ...}-->
-              <mat-icon matSuffix><a href="#" matTooltip="Url should end in /token" matTooltipPosition="left">error</a>
+              <mat-icon matSuffix
+                ><a href="#" matTooltip="Url should end in /token" matTooltipPosition="left"
+                  >error</a
+                >
               </mat-icon>
             </mat-form-field>
           </div>
@@ -60,38 +84,70 @@
           </div> -->
           <div class="col">
             <mat-form-field class="full-width">
-              <mat-select placeholder="Grant Type" required [(ngModel)]="grantType"
-                (selectionChange)="grantTypeChanged($event)" name="grantType" id="grantType">
+              <mat-select
+                placeholder="Grant Type"
+                required
+                [(ngModel)]="grantType"
+                (selectionChange)="grantTypeChanged($event)"
+                name="grantType"
+                id="grantType"
+              >
                 <mat-option value="password">password</mat-option>
                 <mat-option value="refresh_token">refresh_token</mat-option>
               </mat-select>
-              <mat-icon matSuffix><a href="https://oauth.net/2/grant-types/" target="_blank"
-                  matTooltip="click for grant-types information" matTooltipPosition="left">error</a></mat-icon>
+              <mat-icon matSuffix
+                ><a
+                  href="https://oauth.net/2/grant-types/"
+                  target="_blank"
+                  matTooltip="click for grant-types information"
+                  matTooltipPosition="left"
+                  >error</a
+                ></mat-icon
+              >
             </mat-form-field>
           </div>
         </div>
         <div class="row" *ngIf="useRefreshToken">
           <div class="col">
             <mat-form-field class="full-width">
-              <textarea id="useRefreshTokenValue" name="useRefreshTokenValueTextarea" id="useRefreshTokenValueTextarea"
-                matInput placeholder="Refresh Token"></textarea>
+              <textarea
+                id="useRefreshTokenValue"
+                name="useRefreshTokenValueTextarea"
+                id="useRefreshTokenValueTextarea"
+                matInput
+                placeholder="Refresh Token"
+              ></textarea>
             </mat-form-field>
           </div>
         </div>
         <div class="row" *ngIf="!useRefreshToken">
           <div class="col">
             <mat-form-field class="full-width">
-              <input matInput placeholder="Username" name="username" id="username" required [(ngModel)]="username">
+              <input
+                matInput
+                placeholder="Username"
+                name="username"
+                id="username"
+                required
+                [(ngModel)]="username"
+              />
             </mat-form-field>
           </div>
           <div class="col">
             <mat-form-field class="full-width">
               <mat-pass-toggle-visibility #toggle matSuffix></mat-pass-toggle-visibility>
-              <input matInput #password [type]="toggle.type" required placeholder="Password" maxlength="50"
-                [(ngModel)]="passwordValue" name="password" id="password">
-              <mat-hint align="end" aria-live="polite">
-                {{password.value.length}} / 50
-              </mat-hint>
+              <input
+                matInput
+                #password
+                [type]="toggle.type"
+                required
+                placeholder="Password"
+                maxlength="50"
+                [(ngModel)]="passwordValue"
+                name="password"
+                id="password"
+              />
+              <mat-hint align="end" aria-live="polite"> {{ password.value.length }} / 50 </mat-hint>
             </mat-form-field>
           </div>
         </div>
@@ -99,26 +155,45 @@
         <div class="row" *ngIf="useClientAuthentication">
           <div class="col">
             <mat-form-field class="full-width">
-              <input matInput placeholder="client Id" name="clientId" id="clientId" [(ngModel)]="clientId">
-              <mat-icon matSuffix><a href="#" matTooltip="Client id only neccessary if checking for it"
-                  matTooltipPosition="left">error</a></mat-icon>
+              <input
+                matInput
+                placeholder="client Id"
+                name="clientId"
+                id="clientId"
+                [(ngModel)]="clientId"
+              />
+              <mat-icon matSuffix
+                ><a
+                  href="#"
+                  matTooltip="Client id only neccessary if checking for it"
+                  matTooltipPosition="left"
+                  >error</a
+                ></mat-icon
+              >
             </mat-form-field>
           </div>
           <div class="col">
             <mat-form-field class="full-width">
               <mat-pass-toggle-visibility #toggle matSuffix></mat-pass-toggle-visibility>
-              <input matInput #password [type]="toggle.type" required placeholder="Client Secret" maxlength="50"
-                name="clientSecret" id="clientSecret" [(ngModel)]="clientSecret">
-              <mat-hint align="end" aria-live="polite">
-                {{password.value.length}} / 50
-              </mat-hint>
+              <input
+                matInput
+                #password
+                [type]="toggle.type"
+                required
+                placeholder="Client Secret"
+                maxlength="50"
+                name="clientSecret"
+                id="clientSecret"
+                [(ngModel)]="clientSecret"
+              />
+              <mat-hint align="end" aria-live="polite"> {{ password.value.length }} / 50 </mat-hint>
             </mat-form-field>
           </div>
         </div>
         <div class="row">
           <div class="col">
             <div [hidden]="!postError" class="alert alert-danger">
-              {{postErrorMessage}}
+              {{ postErrorMessage }}
             </div>
           </div>
         </div>
@@ -134,7 +209,11 @@
       <ng-template mat-tab-label>
         <fa-layers [fixedWidth]="true">
           <fa-icon [icon]="faCircle"></fa-icon>
-          <fa-layers-text content="2" style="color: rgb(255, 255, 255);" transform="shrink-3"></fa-layers-text>
+          <fa-layers-text
+            content="2"
+            style="color: rgb(255, 255, 255);"
+            transform="shrink-3"
+          ></fa-layers-text>
         </fa-layers>
         <span>Token Result</span>
       </ng-template>
@@ -147,13 +226,21 @@
               </mat-expansion-panel-header>
               <form>
                 <mat-form-field class="full-width">
-                  <textarea id="accessToken" name="accessToken" matInput placeholder="Accesss Token Encrypted Value"
-                    [(ngModel)]="tokenFullWrapper.access_token" matTextareaAutosize></textarea>
+                  <textarea
+                    id="accessToken"
+                    name="accessToken"
+                    matInput
+                    placeholder="Accesss Token Encrypted Value"
+                    [(ngModel)]="tokenFullWrapper.access_token"
+                    matTextareaAutosize
+                  ></textarea>
                 </mat-form-field>
-                <label class="mat-body-strong">Type:</label>  {{tokenFullWrapper.token_type}}
-                <label class="mat-body-strong">Expires in: </label> {{tokenFullWrapper.expires_in}} seconds
-                <label class="mat-body-strong">Issued: </label> {{tokenFullWrapper.token_issued}}
-                <label class="mat-body-strong">Expires: </label> {{tokenFullWrapper.token_expires}}
+                <label class="mat-body-strong">Type:</label> {{ tokenFullWrapper.token_type }}
+                <label class="mat-body-strong">Expires in: </label>
+                {{ tokenFullWrapper.expires_in }} seconds
+                <label class="mat-body-strong">Issued: </label> {{ tokenFullWrapper.token_issued }}
+                <label class="mat-body-strong">Expires: </label>
+                {{ tokenFullWrapper.token_expires }}
                 <div class="row" style="padding-top: 10px;">
                   <button mat-flat-button color="primary" (click)="useTokenGetData()">Use</button>
                 </div>
@@ -165,13 +252,21 @@
               </mat-expansion-panel-header>
               <form>
                 <mat-form-field class="full-width">
-                  <textarea id="refreshToken" name="refreshToken" matInput placeholder="Refresh Token Encrypted Value"
-                    matTextareaAutosize matAutosizeMinRows=2 [(ngModel)]="tokenFullWrapper.refresh_token"></textarea>
+                  <textarea
+                    id="refreshToken"
+                    name="refreshToken"
+                    matInput
+                    placeholder="Refresh Token Encrypted Value"
+                    matTextareaAutosize
+                    matAutosizeMinRows="2"
+                    [(ngModel)]="tokenFullWrapper.refresh_token"
+                  ></textarea>
                 </mat-form-field>
-                Issued:
-                Expires in:
+                Issued: Expires in:
                 <div class="row" style="padding-top: 10px;">
-                  <button mat-flat-button color="primary" (click)="useRefreshTokenGetToken()">Use</button>
+                  <button mat-flat-button color="primary" (click)="useRefreshTokenGetToken()">
+                    Use
+                  </button>
                 </div>
               </form>
             </mat-expansion-panel>
@@ -181,8 +276,14 @@
               </mat-expansion-panel-header>
               <form>
                 <mat-form-field class="full-width">
-                  <textarea id="claims" name="claims" matInput matTextareaAutosize matAutosizeMinRows=2
-                    [(ngModel)]="tokenFullWrapper.claims"></textarea>
+                  <textarea
+                    id="claims"
+                    name="claims"
+                    matInput
+                    matTextareaAutosize
+                    matAutosizeMinRows="2"
+                    [(ngModel)]="tokenFullWrapper.claims"
+                  ></textarea>
                 </mat-form-field>
               </form>
             </mat-expansion-panel>
@@ -192,8 +293,14 @@
               </mat-expansion-panel-header>
               <form>
                 <mat-form-field class="full-width">
-                        <textarea id="settings" name="settings" matInput matTextareaAutosize matAutosizeMinRows=2
-                          [(ngModel)]="tokenFullWrapper.settings"></textarea>
+                  <textarea
+                    id="settings"
+                    name="settings"
+                    matInput
+                    matTextareaAutosize
+                    matAutosizeMinRows="2"
+                    [(ngModel)]="tokenFullWrapper.settings"
+                  ></textarea>
                 </mat-form-field>
               </form>
             </mat-expansion-panel>
@@ -202,10 +309,16 @@
                 <label class="mat-h3">Apps</label>
               </mat-expansion-panel-header>
               <form>
-                    <mat-form-field class="full-width">
-                      <textarea id="apps" name="apps" matInput matTextareaAutosize matAutosizeMinRows=2
-                        [(ngModel)]="tokenFullWrapper.apps"></textarea>
-                    </mat-form-field>
+                <mat-form-field class="full-width">
+                  <textarea
+                    id="apps"
+                    name="apps"
+                    matInput
+                    matTextareaAutosize
+                    matAutosizeMinRows="2"
+                    [(ngModel)]="tokenFullWrapper.apps"
+                  ></textarea>
+                </mat-form-field>
               </form>
             </mat-expansion-panel>
           </mat-accordion>
@@ -216,7 +329,11 @@
       <ng-template mat-tab-label>
         <fa-layers [fixedWidth]="true">
           <fa-icon [icon]="faCircle"></fa-icon>
-          <fa-layers-text content="3" style="color: rgb(255, 255, 255);" transform="shrink-3"></fa-layers-text>
+          <fa-layers-text
+            content="3"
+            style="color: rgb(255, 255, 255);"
+            transform="shrink-3"
+          ></fa-layers-text>
         </fa-layers>
         <span>Use Token to Access Resource</span>
       </ng-template>
@@ -224,8 +341,9 @@
         <div class="row">
           <div class="col">
             <mat-form-field class="full-width">
-              <input matInput placeholder="API url" name="apiUrlResource" id="apiUrlResource">
-              <mat-icon matSuffix><a href="#" matTooltip="Url to resource" matTooltipPosition="left">error</a>
+              <input matInput placeholder="API url" name="apiUrlResource" id="apiUrlResource" />
+              <mat-icon matSuffix
+                ><a href="#" matTooltip="Url to resource" matTooltipPosition="left">error</a>
               </mat-icon>
             </mat-form-field>
           </div>
@@ -250,8 +368,12 @@
         <div class="row">
           <div class="col">
             <mat-form-field class="full-width">
-              <textarea id="authorization" name="authorization" matInput
-                placeholder="Authorization (bearer AccessToken)"></textarea>
+              <textarea
+                id="authorization"
+                name="authorization"
+                matInput
+                placeholder="Authorization (bearer AccessToken)"
+              ></textarea>
             </mat-form-field>
           </div>
         </div>
@@ -266,7 +388,11 @@
       <ng-template mat-tab-label>
         <fa-layers [fixedWidth]="true">
           <fa-icon [icon]="faCircle"></fa-icon>
-          <fa-layers-text content="4" style="color: rgb(255, 255, 255);" transform="shrink-3"></fa-layers-text>
+          <fa-layers-text
+            content="4"
+            style="color: rgb(255, 255, 255);"
+            transform="shrink-3"
+          ></fa-layers-text>
         </fa-layers>
         <span>Data Result</span>
       </ng-template>
@@ -279,7 +405,12 @@
               </mat-expansion-panel-header>
               <form>
                 <mat-form-field class="full-width">
-                  <textarea id="dataResult" name="dataResult" matInput placeholder="Data Result"></textarea>
+                  <textarea
+                    id="dataResult"
+                    name="dataResult"
+                    matInput
+                    placeholder="Data Result"
+                  ></textarea>
                 </mat-form-field>
               </form>
             </mat-expansion-panel>
@@ -288,9 +419,8 @@
       </div>
     </mat-tab>
   </mat-tab-group>
-
 </mat-card>
-
+<button (click)="doSomething()"></button>
 <!-- FontAwezome
 <fa-icon [icon]="faInfoCircle"></fa-icon> -->
 

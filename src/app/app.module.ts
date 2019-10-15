@@ -9,6 +9,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome'
 import { AppComponent } from './app.component'
 import { NoopAnimationsModule, BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { TokenService } from './token.service'
+import { ConfigService } from './config/config.service'
 
 @NgModule({
   declarations: [AppComponent],
@@ -22,7 +23,7 @@ import { TokenService } from './token.service'
     MatPasswordStrengthModule.forRoot(),
     FontAwesomeModule
   ],
-  providers: [TokenService],
+  providers: [TokenService, ConfigService],
   bootstrap: [AppComponent]
 })
 export class AppModule {}
