@@ -44,9 +44,9 @@ export class AppComponent implements OnInit {
     apps: '',
     refresh_token: ''
   }
+  authorization = 'Authorization bearer '
   constructor(private configService: ConfigService, private tokenService: TokenService) {}
   ngOnInit(): void {
-    this.clearTokenFullWrapper()
     this.configService.getConfig().subscribe(
       (result: Environments) => {
         switch (__env.name) {
@@ -78,8 +78,9 @@ export class AppComponent implements OnInit {
     console.log(this.favoriteSelected)
     this.apiUrl = this.favoriteSelected + '/token'
   }
-  onSubmit(form: NgForm) {
+  onSubmitGetToken(form: NgForm) {
     // console.log('in onSubmit:', form.valid)
+    this.clearTokenFullWrapper()
     if (form.valid) {
       this.postError = false
       this.bodyData = `grant_type=${this.grantType}&username=${this.username}&password=${this.passwordValue}&client_id=${this.clientId}&client_secret=${this.clientSecret}`
@@ -98,6 +99,26 @@ export class AppComponent implements OnInit {
       this.postErrorMessage = 'Please fix the above errors.'
     }
   }
+  onSubmitGetData(form: NgForm) {
+    // console.log('in onSubmit:', form.valid)
+    if (form.valid) {
+      this.postError = false
+      /* this.bodyData = `grant_type=${this.grantType}&username=${this.username}&password=${this.passwordValue}&client_id=${this.clientId}&client_secret=${this.clientSecret}`
+      this.tokenService.getToken(this.apiUrl, this.bodyData).subscribe(
+        result => {
+          console.log('success on component', result)
+          this.tokenFullWrapper = result
+          this.onTabChanged({ index: 1 })
+        },
+        error => {
+          this.onHttpError(error)
+        }
+      ) */
+    } else {
+      this.postError = true
+      this.postErrorMessage = 'Please fix the above errors.'
+    }
+  }
   onHttpError(errorResponse: any) {
     console.error('error: ' + errorResponse)
     this.postError = true
@@ -108,6 +129,7 @@ export class AppComponent implements OnInit {
   }
   useTokenGetData() {
     this.onTabChanged({ index: 2 })
+    this.authorization += this.tokenFullWrapper.access_token
   }
   useRefreshTokenGetToken() {
     this.onTabChanged({ index: 0 })

@@ -16,7 +16,7 @@
         </fa-layers>
         <span>Get/Renew Token</span>
       </ng-template>
-      <form #form="ngForm" (ngSubmit)="onSubmit(form)">
+      <form #form="ngForm" (ngSubmit)="onSubmitGetToken(form)">
         <div class="row" style="padding: 10px 0;">
           <div class="col">
             <mat-form-field class="full-width">
@@ -74,14 +74,6 @@
         </div>
 
         <div class="row">
-          <!--           <div class="col">
-            <mat-form-field class="full-width">
-              <mat-select placeholder="Body Content-Type" required [(value)]="ContentType">
-                <mat-option value="x-www-form-urlencoded">application/x-www-form-urlencoded</mat-option>
-                <mat-option value="json">Application/json</mat-option>
-              </mat-select>
-            </mat-form-field>
-          </div> -->
           <div class="col">
             <mat-form-field class="full-width">
               <mat-select
@@ -354,34 +346,23 @@
         </fa-layers>
         <span>Use Token to Access Resource</span>
       </ng-template>
-      <form id="useTokenForm">
+      <form #form="ngForm" (ngSubmit)="onSubmitGetData(form)">
         <div class="row">
           <div class="col">
             <mat-form-field class="full-width">
-              <input matInput placeholder="API url" name="apiUrlResource" id="apiUrlResource" />
+              <input
+                matInput
+                placeholder="API url"
+                name="apiUrlResource"
+                id="apiUrlResource"
+                required
+              />
               <mat-icon matSuffix
                 ><a href="#" matTooltip="Url to resource" matTooltipPosition="left">error</a>
               </mat-icon>
             </mat-form-field>
           </div>
         </div>
-        <!--         <div class="row">
-          <div class="col">
-            <mat-form-field class="full-width">
-              <mat-select placeholder="Body Content-Type">
-                <mat-option value="x-www-form-urlencoded">application/x-www-form-urlencoded</mat-option>
-                <mat-option value="json">Application/json</mat-option>
-              </mat-select>
-            </mat-form-field>
-          </div>
-          <div class="col">
-            <mat-form-field class="full-width">
-              <mat-select placeholder="Accept (response format)">
-                <mat-option value="json">Application/json</mat-option>
-              </mat-select>
-            </mat-form-field>
-          </div>
-        </div> -->
         <div class="row">
           <div class="col">
             <mat-form-field class="full-width">
@@ -389,9 +370,19 @@
                 id="authorization"
                 name="authorization"
                 matInput
+                matTextareaAutosize
+                matAutosizeMinRows="2"
                 placeholder="Authorization (bearer AccessToken)"
+                [(ngModel)]="authorization"
               ></textarea>
             </mat-form-field>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <div [hidden]="!postError" class="alert alert-danger">
+              {{ postErrorMessage }}
+            </div>
           </div>
         </div>
         <div class="row">
