@@ -1,0 +1,46 @@
+<form #form="ngForm" (ngSubmit)="onSubmitGetData(form)">
+  <div class="row">
+    <div class="col">
+      <mat-form-field class="full-width">
+        <input
+          matInput
+          placeholder="API url"
+          name="apiUrlResource"
+          id="apiUrlResource"
+          required
+          [(ngModel)]="favoriteSelected"
+        />
+        <mat-icon matSuffix
+          ><a href="#" matTooltip="Url to resource" matTooltipPosition="left">error</a>
+        </mat-icon>
+      </mat-form-field>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <mat-form-field class="full-width">
+        <textarea
+          id="authorization"
+          name="authorization"
+          matInput
+          matTextareaAutosize
+          matAutosizeMinRows="2"
+          placeholder="Authorization (bearer AccessToken)"
+          [(ngModel)]="authorization"
+        ></textarea>
+      </mat-form-field>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <div [hidden]="!postError" class="alert alert-danger">
+        {{ postErrorMessage }}
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <button mat-flat-button color="primary">Send request</button>
+    </div>
+  </div>
+</form>

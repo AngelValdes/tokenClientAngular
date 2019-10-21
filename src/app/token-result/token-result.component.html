@@ -1,0 +1,124 @@
+<div class="row">
+  <div class="col" style="padding: 10px;">
+    <mat-accordion multi="true">
+      <mat-expansion-panel [expanded]="true">
+        <mat-expansion-panel-header>
+          <label class="mat-h3">Access Token</label>
+        </mat-expansion-panel-header>
+        <form>
+          <mat-form-field class="full-width">
+            <textarea
+              id="accessToken"
+              name="accessToken"
+              matInput
+              placeholder="Accesss Token Encrypted Value"
+              [(ngModel)]="tokenFullWrapper.access_token"
+              matTextareaAutosize
+            ></textarea>
+          </mat-form-field>
+          <label class="mat-body-strong">Type:</label> {{ tokenFullWrapper.token_type }}
+          <label class="mat-body-strong">Expires in: </label>
+          {{ tokenFullWrapper.expires_in }} seconds <label class="mat-body-strong">Issued: </label>
+          {{ tokenFullWrapper.token_issued }}
+          <label class="mat-body-strong">Expires: </label>
+          {{ tokenFullWrapper.token_expires }}
+          <div class="row" style="padding-top: 10px;">
+            <button mat-flat-button color="primary" (click)="useTokenGetData()">Use</button>
+          </div>
+        </form>
+      </mat-expansion-panel>
+      <mat-expansion-panel [expanded]="true">
+        <mat-expansion-panel-header>
+          <label class="mat-h3">Refresh Token</label>
+        </mat-expansion-panel-header>
+        <form>
+          <mat-form-field class="full-width">
+            <textarea
+              id="refreshToken"
+              name="refreshToken"
+              matInput
+              placeholder="Refresh Token Encrypted Value"
+              matTextareaAutosize
+              matAutosizeMinRows="2"
+              [(ngModel)]="tokenFullWrapper.refresh_token"
+            ></textarea>
+          </mat-form-field>
+          Issued: Expires in:
+          <div class="row" style="padding-top: 10px;">
+            <button mat-flat-button color="primary" (click)="useRefreshTokenGetToken()">
+              Use
+            </button>
+          </div>
+        </form>
+      </mat-expansion-panel>
+      <mat-expansion-panel [expanded]="true" *ngIf="tokenFullWrapper.claims">
+        <mat-expansion-panel-header>
+          <label class="mat-h3">Claims</label>
+        </mat-expansion-panel-header>
+        <form>
+          <mat-form-field class="full-width">
+            <textarea
+              id="claims"
+              name="claims"
+              matInput
+              matTextareaAutosize
+              matAutosizeMinRows="2"
+              [(ngModel)]="tokenFullWrapper.claims"
+            ></textarea>
+          </mat-form-field>
+        </form>
+      </mat-expansion-panel>
+      <mat-expansion-panel [expanded]="true" *ngIf="tokenFullWrapper.role">
+        <mat-expansion-panel-header>
+          <label class="mat-h3">Role</label>
+        </mat-expansion-panel-header>
+        <form>
+          <mat-form-field class="full-width">
+            <textarea
+              id="role"
+              name="role"
+              matInput
+              matTextareaAutosize
+              matAutosizeMinRows="2"
+              [(ngModel)]="tokenFullWrapper.role"
+            ></textarea>
+          </mat-form-field>
+        </form>
+      </mat-expansion-panel>
+      <mat-expansion-panel [expanded]="true" *ngIf="tokenFullWrapper.settings">
+        <mat-expansion-panel-header>
+          <label class="mat-h3">Settings</label>
+        </mat-expansion-panel-header>
+        <form>
+          <mat-form-field class="full-width">
+            <textarea
+              id="settings"
+              name="settings"
+              matInput
+              matTextareaAutosize
+              matAutosizeMinRows="2"
+              [(ngModel)]="tokenFullWrapper.settings"
+            ></textarea>
+          </mat-form-field>
+        </form>
+      </mat-expansion-panel>
+      <mat-expansion-panel [expanded]="true" *ngIf="tokenFullWrapper.apps">
+        <mat-expansion-panel-header>
+          <label class="mat-h3">Apps</label>
+        </mat-expansion-panel-header>
+        <form>
+          <mat-form-field class="full-width">
+            <textarea
+              id="apps"
+              name="apps"
+              matInput
+              matTextareaAutosize
+              matAutosizeMinRows="2"
+              [(ngModel)]="tokenFullWrapper.apps"
+            ></textarea>
+          </mat-form-field>
+        </form>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </div>
+</div>
