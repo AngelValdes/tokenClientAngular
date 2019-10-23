@@ -18,6 +18,8 @@ export class AppComponent {
   tokenFullWrapper = {
     access_token: ''
   }
+  useRefreshToken = false
+  refreshTokenValue = ''
   constructor() {}
 
   onGotTokenchanged(tokenFullWrapper: any) {
@@ -31,5 +33,11 @@ export class AppComponent {
   }
   onFavoriteSelectedChanged(url: string) {
     this.favoriteSelected = url
+  }
+  onUseRefreshTokenChanged(useIt: boolean) {
+    this.useRefreshToken = useIt
+  }
+  onRefreshTokenValueChanged(refreshTokenValue: string) {
+    this.refreshTokenValue = refreshTokenValue
   }
 }

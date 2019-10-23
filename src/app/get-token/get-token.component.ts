@@ -1,4 +1,12 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core'
+import {
+  Component,
+  OnInit,
+  Output,
+  EventEmitter,
+  Input,
+  OnChanges,
+  SimpleChanges
+} from '@angular/core'
 import { faCircle } from '@fortawesome/free-solid-svg-icons'
 import { NgForm, NgModel } from '@angular/forms'
 import { TokenService } from '../token.service'
@@ -11,7 +19,9 @@ declare var __env: any
   templateUrl: './get-token.component.html',
   styleUrls: ['./get-token.component.css']
 })
-export class GetTokenComponent implements OnInit {
+export class GetTokenComponent implements OnInit, OnChanges {
+  @Input() useRefreshToken: false
+  @Input() refreshTokenValue: string
   @Output() gotSelectedTab: EventEmitter<number> = new EventEmitter<number>()
   @Output() gotTokenFullWrapper: EventEmitter<any> = new EventEmitter<any>()
   @Output() gotFavoriteSelected: EventEmitter<string> = new EventEmitter<string>()
@@ -25,7 +35,7 @@ export class GetTokenComponent implements OnInit {
   username = ''
   passwordValue = ''
   useRefreshTokenValue = ''
-  useRefreshToken = false
+  // useRefreshToken = false
   useClientAuthentication = false
   apiUrl = ''
   clientId = 'JS'
@@ -34,7 +44,23 @@ export class GetTokenComponent implements OnInit {
   apiUrls: []
 
   constructor(private configService: ConfigService, private tokenService: TokenService) {}
-
+  ngOnChanges(changes: SimpleChanges): void {
+    // tslint:disable-next-line: forin
+    for (const propName in changes) {
+      const chng = changes[propName]
+      // const cur = chng.currentValue
+      // let prev = JSON.stringify(chng.previousValue)
+      // make desicion
+      switch (chng.currentValue) {
+        case true:
+          this.grantType = 'refresh_token'
+          break
+        case false:
+          this.grantType = 'password'
+          break
+      }
+    }
+  }
   ngOnInit(): void {
     this.configService.getConfig().subscribe(
       (result: Environments) => {

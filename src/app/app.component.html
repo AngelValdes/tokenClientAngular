@@ -16,6 +16,8 @@
         <span>Get/Renew Token</span>
       </ng-template>
       <app-get-token
+        [useRefreshToken]="useRefreshToken"
+        [refreshTokenValue]="refreshTokenValue"
         (gotSelectedTab)="onTabChanged($event)"
         (gotTokenFullWrapper)="onGotTokenchanged($event)"
         (gotFavoriteSelected)="onFavoriteSelectedChanged($event)"
@@ -35,8 +37,10 @@
       </ng-template>
       <app-token-result
         [tokenFullWrapper]="tokenFullWrapper"
+        (refreshTokenValue)="onRefreshTokenValueChanged($event)"
         (selectedTab)="onTabChanged($event)"
         (authorization)="onAuthorizationChanged($event)"
+        (useRefreshToken)="onUseRefreshTokenChanged($event)"
       ></app-token-result>
     </mat-tab>
     <mat-tab *ngIf="tokenFullWrapper.access_token">
