@@ -23,7 +23,6 @@ export class TokenService {
       catchError(this.handleError)
     )
   }
-
   private handleError(err: HttpErrorResponse) {
     let errorMessage = ''
     if (err.error instanceof ErrorEvent) {

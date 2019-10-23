@@ -20,7 +20,7 @@ declare var __env: any
   styleUrls: ['./get-token.component.css']
 })
 export class GetTokenComponent implements OnInit, OnChanges {
-  @Input() useRefreshToken: false
+  @Input() useRefreshToken: boolean
   @Input() refreshTokenValue: string
   @Output() gotSelectedTab: EventEmitter<number> = new EventEmitter<number>()
   @Output() gotTokenFullWrapper: EventEmitter<any> = new EventEmitter<any>()
@@ -35,7 +35,6 @@ export class GetTokenComponent implements OnInit, OnChanges {
   username = ''
   passwordValue = ''
   useRefreshTokenValue = ''
-  // useRefreshToken = false
   useClientAuthentication = false
   apiUrl = ''
   clientId = 'JS'
@@ -48,9 +47,6 @@ export class GetTokenComponent implements OnInit, OnChanges {
     // tslint:disable-next-line: forin
     for (const propName in changes) {
       const chng = changes[propName]
-      // const cur = chng.currentValue
-      // let prev = JSON.stringify(chng.previousValue)
-      // make desicion
       switch (chng.currentValue) {
         case true:
           this.grantType = 'refresh_token'
@@ -80,10 +76,14 @@ export class GetTokenComponent implements OnInit, OnChanges {
     )
   }
   onSubmitGetToken(form: NgForm) {
-    // console.log('in onSubmit:', form.valid)
     if (form.valid) {
       this.postError = false
-      this.bodyData = `grant_type=${this.grantType}&username=${this.username}&password=${this.passwordValue}&client_id=${this.clientId}&client_secret=${this.clientSecret}`
+      this.bodyData = `grant_type=${this.grantType}&client_id=${this.clientId}&client_secret=${this.clientSecret}`
+      if (this.useRefreshToken) {
+        this.bodyData += `&refresh_token=${this.refreshTokenValue}`
+      } else {
+        this.bodyData += `&username=${this.username}&password=${this.passwordValue}`
+      }
       this.tokenService.getToken(this.apiUrl, this.bodyData).subscribe(
         result => {
           console.log('success on component', result)
