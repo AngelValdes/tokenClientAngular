@@ -20,24 +20,28 @@ export class AppComponent {
   }
   useRefreshToken = false
   refreshTokenValue = ''
+  data
   constructor() {}
 
   onGotTokenchanged(tokenFullWrapper: any) {
     this.tokenFullWrapper = tokenFullWrapper
   }
-  onTabChanged(tab: number) {
+  onGotTabChanged(tab: number) {
     this.selectedTab = tab
   }
-  onAuthorizationChanged(tokenValue: string) {
+  onGotAuthorizationChanged(tokenValue: string) {
     this.authorization += tokenValue
   }
-  onFavoriteSelectedChanged(url: string) {
+  onGotFavoriteSelectedChanged(url: string) {
     this.favoriteSelected = url
   }
-  onUseRefreshTokenChanged(useIt: boolean) {
+  onGotUseRefreshTokenChanged(useIt: boolean) {
     this.useRefreshToken = useIt
   }
-  onRefreshTokenValueChanged(refreshTokenValue: string) {
+  onGotRefreshTokenValueChanged(refreshTokenValue: string) {
     this.refreshTokenValue = refreshTokenValue
+  }
+  onGotData(data: any) {
+    this.data = data
   }
 }

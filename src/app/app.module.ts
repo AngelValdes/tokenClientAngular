@@ -9,14 +9,21 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome'
 import { AppComponent } from './app.component'
 import { NoopAnimationsModule, BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { TokenService } from './token.service'
-import { ConfigService } from './config/config.service';
-import { GetTokenComponent } from './get-token/get-token.component';
-import { TokenResultComponent } from './token-result/token-result.component';
-import { UseTokenComponent } from './use-token/use-token.component';
+import { ConfigService } from './config/config.service'
+import { GetTokenComponent } from './get-token/get-token.component'
+import { TokenResultComponent } from './token-result/token-result.component'
+import { UseTokenComponent } from './use-token/use-token.component'
 import { DataResultComponent } from './data-result/data-result.component'
+import { DataService } from './common/data.service'
 
 @NgModule({
-  declarations: [AppComponent, GetTokenComponent, TokenResultComponent, UseTokenComponent, DataResultComponent],
+  declarations: [
+    AppComponent,
+    GetTokenComponent,
+    TokenResultComponent,
+    UseTokenComponent,
+    DataResultComponent
+  ],
   imports: [
     BrowserModule,
     HttpClientModule,
@@ -27,7 +34,7 @@ import { DataResultComponent } from './data-result/data-result.component'
     MatPasswordStrengthModule.forRoot(),
     FontAwesomeModule
   ],
-  providers: [TokenService, ConfigService],
+  providers: [TokenService, ConfigService, DataService],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

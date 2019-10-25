@@ -2,7 +2,7 @@
   <div style="text-align:center">
     <h1>Welcome to {{ title }}!</h1>
   </div>
-  <mat-tab-group [selectedIndex]="selectedTab" (selectedTabChange)="onTabChanged($event.index)">
+  <mat-tab-group [selectedIndex]="selectedTab" (selectedTabChange)="onGotTabChanged($event.index)">
     <mat-tab>
       <ng-template mat-tab-label>
         <fa-layers [fixedWidth]="true">
@@ -18,9 +18,9 @@
       <app-get-token
         [useRefreshToken]="useRefreshToken"
         [refreshTokenValue]="refreshTokenValue"
-        (gotSelectedTab)="onTabChanged($event)"
+        (gotSelectedTab)="onGotTabChanged($event)"
         (gotTokenFullWrapper)="onGotTokenchanged($event)"
-        (gotFavoriteSelected)="onFavoriteSelectedChanged($event)"
+        (gotFavoriteSelected)="onGotFavoriteSelectedChanged($event)"
       ></app-get-token>
     </mat-tab>
     <mat-tab *ngIf="tokenFullWrapper.access_token">
@@ -37,10 +37,10 @@
       </ng-template>
       <app-token-result
         [tokenFullWrapper]="tokenFullWrapper"
-        (refreshTokenValue)="onRefreshTokenValueChanged($event)"
-        (selectedTab)="onTabChanged($event)"
-        (authorization)="onAuthorizationChanged($event)"
-        (useRefreshToken)="onUseRefreshTokenChanged($event)"
+        (gotRefreshTokenValue)="onGotRefreshTokenValueChanged($event)"
+        (gotSelectedTab)="onGotTabChanged($event)"
+        (gotAuthorization)="onGotAuthorizationChanged($event)"
+        (gotUseRefreshToken)="onGotUseRefreshTokenChanged($event)"
       ></app-token-result>
     </mat-tab>
     <mat-tab *ngIf="tokenFullWrapper.access_token">
@@ -58,9 +58,11 @@
       <app-use-token
         [authorization]="authorization"
         [favoriteSelected]="favoriteSelected"
+        (gotData)="onGotData($event)"
+        (gotSelectedTab)="onGotTabChanged($event)"
       ></app-use-token>
     </mat-tab>
-    <mat-tab *ngIf="resourceData">
+    <mat-tab *ngIf="data">
       <ng-template mat-tab-label>
         <fa-layers [fixedWidth]="true">
           <fa-icon [icon]="faCircle"></fa-icon>
@@ -72,7 +74,7 @@
         </fa-layers>
         <span>Data values</span>
       </ng-template>
-      <app-data-result></app-data-result>
+      <app-data-result [data]="data"></app-data-result>
     </mat-tab>
   </mat-tab-group>
 </mat-card>

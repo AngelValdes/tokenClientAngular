@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core'
+import { Component, OnInit, Input } from '@angular/core'
 import { faInfoCircle, faCircle } from '@fortawesome/free-solid-svg-icons'
 
 @Component({
@@ -8,6 +8,7 @@ import { faInfoCircle, faCircle } from '@fortawesome/free-solid-svg-icons'
 })
 export class DataResultComponent implements OnInit {
   faCircle = faCircle
+  @Input() data: any
   constructor() {}
 
   ngOnInit() {}

@@ -18,20 +18,20 @@ export class TokenResultComponent implements OnInit {
     apps: ''
     refresh_token: ''
   }
-  @Output() authorization: EventEmitter<string> = new EventEmitter<string>()
-  @Output() selectedTab: EventEmitter<number> = new EventEmitter<number>()
-  @Output() useRefreshToken: EventEmitter<boolean> = new EventEmitter<boolean>()
-  @Output() refreshTokenValue: EventEmitter<string> = new EventEmitter<string>()
+  @Output() gotAuthorization: EventEmitter<string> = new EventEmitter<string>()
+  @Output() gotSelectedTab: EventEmitter<number> = new EventEmitter<number>()
+  @Output() gotUseRefreshToken: EventEmitter<boolean> = new EventEmitter<boolean>()
+  @Output() gotRefreshTokenValue: EventEmitter<string> = new EventEmitter<string>()
 
   constructor() {}
   useTokenGetData() {
-    this.selectedTab.emit(2)
-    this.authorization.emit(this.tokenFullWrapper.access_token)
+    this.gotSelectedTab.emit(2)
+    this.gotAuthorization.emit(this.tokenFullWrapper.access_token)
   }
   useRefreshTokenGetToken() {
-    this.useRefreshToken.emit(true)
-    this.refreshTokenValue.emit(this.tokenFullWrapper.refresh_token)
-    this.selectedTab.emit(0)
+    this.gotUseRefreshToken.emit(true)
+    this.gotRefreshTokenValue.emit(this.tokenFullWrapper.refresh_token)
+    this.gotSelectedTab.emit(0)
   }
   ngOnInit() {}
 }
