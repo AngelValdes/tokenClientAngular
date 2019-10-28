@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser'
 import { HttpClientModule } from '@angular/common/http'
 import { FormsModule } from '@angular/forms'
 import { NgModule } from '@angular/core'
+import { RouterModule } from '@angular/router'
 import { MaterialModule } from './material.module'
 import { MatPasswordStrengthModule } from '@angular-material-extensions/password-strength'
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome'
@@ -15,6 +16,8 @@ import { TokenResultComponent } from './token-result/token-result.component'
 import { UseTokenComponent } from './use-token/use-token.component'
 import { DataResultComponent } from './data-result/data-result.component'
 import { DataService } from './common/data.service'
+import { PageNotFoundComponent } from './common/page-not-found/page-not-found.component'
+import { HomeComponent } from './home/home.component'
 
 @NgModule({
   declarations: [
@@ -22,12 +25,19 @@ import { DataService } from './common/data.service'
     GetTokenComponent,
     TokenResultComponent,
     UseTokenComponent,
-    DataResultComponent
+    DataResultComponent,
+    PageNotFoundComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
     FormsModule,
+    RouterModule.forRoot([
+      { path: 'home', component: HomeComponent },
+      { path: '', redirectTo: 'home', pathMatch: 'full' },
+      { path: '**', component: PageNotFoundComponent }
+    ]),
     NoopAnimationsModule,
     BrowserAnimationsModule,
     MaterialModule,

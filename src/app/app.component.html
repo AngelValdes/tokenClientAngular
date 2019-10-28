@@ -1,80 +1,20 @@
+<div style="text-align:center">
+  <h1>Welcome to {{ title }}!</h1>
+</div>
 <mat-card>
-  <div style="text-align:center">
-    <h1>Welcome to {{ title }}!</h1>
+  <div>
+    <mat-toolbar color="primary">
+      <mat-toolbar-row>
+        <div class="example-button-row">
+          <button mat-button [routerLink]="['/home']" routerLinkActive="router-link-active">
+            <mat-icon>home</mat-icon> Home
+          </button>
+          <button mat-button [routerLink]="['/settings']" routerLinkActive="router-link-active">
+            <mat-icon>settings</mat-icon> Settings
+          </button>
+        </div>
+      </mat-toolbar-row>
+    </mat-toolbar>
   </div>
-  <mat-tab-group [selectedIndex]="selectedTab" (selectedTabChange)="onGotTabChanged($event.index)">
-    <mat-tab>
-      <ng-template mat-tab-label>
-        <fa-layers [fixedWidth]="true">
-          <fa-icon [icon]="faCircle"></fa-icon>
-          <fa-layers-text
-            content="1"
-            style="color: rgb(255, 255, 255);"
-            transform="shrink-3"
-          ></fa-layers-text>
-        </fa-layers>
-        <span>Get/Renew Token</span>
-      </ng-template>
-      <app-get-token
-        [useRefreshToken]="useRefreshToken"
-        [refreshTokenValue]="refreshTokenValue"
-        (gotSelectedTab)="onGotTabChanged($event)"
-        (gotTokenFullWrapper)="onGotTokenchanged($event)"
-        (gotFavoriteSelected)="onGotFavoriteSelectedChanged($event)"
-      ></app-get-token>
-    </mat-tab>
-    <mat-tab *ngIf="tokenFullWrapper.access_token">
-      <ng-template mat-tab-label>
-        <fa-layers [fixedWidth]="true">
-          <fa-icon [icon]="faCircle"></fa-icon>
-          <fa-layers-text
-            content="2"
-            style="color: rgb(255, 255, 255);"
-            transform="shrink-3"
-          ></fa-layers-text>
-        </fa-layers>
-        <span>Token Result</span>
-      </ng-template>
-      <app-token-result
-        [tokenFullWrapper]="tokenFullWrapper"
-        (gotRefreshTokenValue)="onGotRefreshTokenValueChanged($event)"
-        (gotSelectedTab)="onGotTabChanged($event)"
-        (gotAuthorization)="onGotAuthorizationChanged($event)"
-        (gotUseRefreshToken)="onGotUseRefreshTokenChanged($event)"
-      ></app-token-result>
-    </mat-tab>
-    <mat-tab *ngIf="tokenFullWrapper.access_token">
-      <ng-template mat-tab-label>
-        <fa-layers [fixedWidth]="true">
-          <fa-icon [icon]="faCircle"></fa-icon>
-          <fa-layers-text
-            content="3"
-            style="color: rgb(255, 255, 255);"
-            transform="shrink-3"
-          ></fa-layers-text>
-        </fa-layers>
-        <span>Use Token to Access Resource</span>
-      </ng-template>
-      <app-use-token
-        [authorization]="authorization"
-        [favoriteSelected]="favoriteSelected"
-        (gotData)="onGotData($event)"
-        (gotSelectedTab)="onGotTabChanged($event)"
-      ></app-use-token>
-    </mat-tab>
-    <mat-tab *ngIf="data">
-      <ng-template mat-tab-label>
-        <fa-layers [fixedWidth]="true">
-          <fa-icon [icon]="faCircle"></fa-icon>
-          <fa-layers-text
-            content="4"
-            style="color: rgb(255, 255, 255);"
-            transform="shrink-3"
-          ></fa-layers-text>
-        </fa-layers>
-        <span>Data values</span>
-      </ng-template>
-      <app-data-result [data]="data"></app-data-result>
-    </mat-tab>
-  </mat-tab-group>
+  <router-outlet></router-outlet>
 </mat-card>
