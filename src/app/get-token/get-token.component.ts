@@ -11,6 +11,7 @@ import { faCircle } from '@fortawesome/free-solid-svg-icons'
 import { NgForm, NgModel } from '@angular/forms'
 import { TokenService } from '../token.service'
 import { ConfigService } from '../config/config.service'
+import { Environments } from '../common/environments'
 
 declare var __env: any
 
@@ -118,9 +119,4 @@ export class GetTokenComponent implements OnInit, OnChanges {
     this.postError = true
     this.postErrorMessage = errorResponse
   }
-}
-export class Environments {
-  dev: any
-  stag: any
-  prod: any
 }

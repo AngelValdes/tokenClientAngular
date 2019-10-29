@@ -1,12 +1,16 @@
-<!-- FontAwezome
-<fa-icon [icon]="faInfoCircle"></fa-icon> -->
+FontAwezome
+<fa-icon [icon]="faInfoCircle"></fa-icon>
 
-<!-- Material Icons
+Material Icons
+ https://material.io/resources/icons/?style=baseline
+
 <mat-icon>favorite</mat-icon>
 https://materializecss.com/icons.html
- -->
 
-<!-- Material extensions
+Material Font styles
+https://material.angular.io/guide/typography
+
+Material extensions
 https://github.com/angular-material-extensions
- -->
+
 

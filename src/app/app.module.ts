@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser'
 import { HttpClientModule } from '@angular/common/http'
 import { FormsModule } from '@angular/forms'
+import { SettingsModule } from './settings/settings.module'
 import { NgModule } from '@angular/core'
 import { RouterModule } from '@angular/router'
 import { MaterialModule } from './material.module'
@@ -38,6 +39,7 @@ import { HomeComponent } from './home/home.component'
       { path: '', redirectTo: 'home', pathMatch: 'full' },
       { path: '**', component: PageNotFoundComponent }
     ]),
+    SettingsModule,
     NoopAnimationsModule,
     BrowserAnimationsModule,
     MaterialModule,
