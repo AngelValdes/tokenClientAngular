@@ -8,7 +8,7 @@ import {
   SimpleChanges
 } from '@angular/core'
 import { faCircle } from '@fortawesome/free-solid-svg-icons'
-import { NgForm, NgModel } from '@angular/forms'
+import { NgForm } from '@angular/forms'
 import { TokenService } from '../token.service'
 import { ConfigService } from '../config/config.service'
 import { Environments } from '../common/environments'

@@ -1,22 +1,37 @@
 <div class="row" style="padding: 10px 0;">
   <div class="col">
-    <span class="mat-subheading-2">Favorites</span>
+    <span class="mat-subheading-2">Favorites</span><span class="mat-body-1"> (not saved)</span>
   </div>
 </div>
 <div class="row">
-  <div class="col-5">
-    <mat-form-field class="full-width">
-      <input matInput placeholder="Enter new url" name="favoriteUrl" id="favoriteUrl" />
-    </mat-form-field>
+  <div class="col-md-6">
+    <form [formGroup]="form">
+      <!--(ngSubmit)="onSubmit(form)"-->
+      <div class="row">
+        <div class="col-md-10">
+          <mat-form-field class="full-width">
+            <input
+              matInput
+              placeholder="Enter a valid url"
+              name="favoriteUrl"
+              id="favoriteUrl"
+              formControlName="favoriteUrl"
+            />
+          </mat-form-field>
+        </div>
+        <div class="col-md-2">
+          <button mat-raised-button color="primary" (click)="onAdd()" [disabled]="!form.valid">
+            Add
+          </button>
+        </div>
+      </div>
+    </form>
   </div>
-  <div class="col-1">
-    <button mat-raised-button color="primary">Add</button>
-  </div>
-  <div class="col-6">
+  <div class="col-md-6">
     <mat-list>
-      <mat-list-item *ngFor="let url of favoriteUrls"
+      <mat-list-item *ngFor="let url of favoriteUrls" class="no-wrap"
         >{{ url.value }}
-        <button mat-icon-button color="primary">
+        <button mat-icon-button color="primary" (click)="onDelete(url.value)">
           <mat-icon>delete</mat-icon>
         </button>
       </mat-list-item>

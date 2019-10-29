@@ -1,6 +1,15 @@
 mat-list.mat-list.mat-list-base {
   padding: 0px;
 }
+/*
 mat-list-item {
   height: 30px !important;
+} */
+mat-icon {
+  cursor: pointer;
 }
+/* .no-wrap {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+} */
