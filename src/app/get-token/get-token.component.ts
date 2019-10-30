@@ -103,7 +103,7 @@ export class GetTokenComponent implements OnInit, OnChanges {
   grantTypeChanged() {
     this.useRefreshToken = this.grantType === 'refresh_token'
   }
-  favoriteChanged() {
+  favoriteChanged($event) {
     this.gotFavoriteSelected.emit(this.favoriteSelected)
     this.apiUrl = this.favoriteSelected + '/token'
   }

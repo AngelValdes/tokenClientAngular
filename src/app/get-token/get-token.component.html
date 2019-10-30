@@ -18,7 +18,7 @@
     <div class="col">
       <mat-slide-toggle
         [(ngModel)]="useRefreshToken"
-        (change)="useRefreshTokenChange($event)"
+        (change)="useRefreshTokenChange()"
         name="useRefreshToken"
         id="useRefreshToken"
         >Using a refresh token
@@ -60,7 +60,7 @@
           placeholder="Grant Type"
           required
           [(ngModel)]="grantType"
-          (selectionChange)="grantTypeChanged($event)"
+          (selectionChange)="grantTypeChanged()"
           name="grantType"
           id="grantType"
         >
