@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core'
 import { MatDialog } from '@angular/material/dialog'
 import { InformationDialogComponent } from './information-dialog/information-dialog.component'
+import { AuthService } from './common/auth.service'
+import { Router } from '@angular/router'
 // import { faCircle as farCircle } from '@fortawesome/free-regular-svg-icons'
 
 @Component({
@@ -11,7 +13,16 @@ import { InformationDialogComponent } from './information-dialog/information-dia
 export class AppComponent implements OnInit {
   title = 'tokenClient'
   mobile
-  constructor(public dialog: MatDialog) {}
+  get isLoggedIn(): boolean {
+    return this.authService.isLoggedIn
+  }
+  get userName(): string {
+    if (this.authService.currentUser) {
+      return this.authService.currentUser.userName
+    }
+    return ''
+  }
+  constructor(public dialog: MatDialog, private authService: AuthService, private router: Router) {}
   ngOnInit() {
     if (window.screen.width < 481) {
       this.mobile = true
@@ -19,5 +30,9 @@ export class AppComponent implements OnInit {
   }
   onShowDialog() {
     this.dialog.open(InformationDialogComponent)
+  }
+  logOut(): void {
+    this.authService.logout()
+    this.router.navigateByUrl('/home')
   }
 }

@@ -3,6 +3,8 @@ FontAwezome
 
 Material Icons
  https://material.io/resources/icons/?style=baseline
+ http://materialdesignicons.com
+
 
 <mat-icon>favorite</mat-icon>
 https://materializecss.com/icons.html

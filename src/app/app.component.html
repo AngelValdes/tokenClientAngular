@@ -5,16 +5,27 @@
   <mat-toolbar color="primary">
     <mat-toolbar-row>
       <button mat-button [routerLink]="['/home']" routerLinkActive="router-link-active">
-        <mat-icon>home</mat-icon> <span>Home</span
+        <mat-icon>home</mat-icon> <span *ngIf="!mobile">Home</span
         ><!--*ngIf="!mobile"-->
       </button>
       <button mat-button [routerLink]="['/settings']" routerLinkActive="router-link-active">
-        <mat-icon>settings</mat-icon> <span>Settings</span>
+        <mat-icon>settings</mat-icon> <span *ngIf="!mobile">Settings</span>
       </button>
       <button mat-button [routerLink]="['/blabla']" routerLinkActive="router-link-active">
-        <mat-icon>not_interested</mat-icon> <span>404</span>
+        <mat-icon>not_interested</mat-icon> <span *ngIf="!mobile">404</span>
       </button>
       <span class="example-fill-remaining-space"></span>
+      <span mat-button *ngIf="isLoggedIn && !mobile" class="mat-body-1"
+        >Welcome {{ userName }}</span
+      >
+      <button mat-button *ngIf="!isLoggedIn" [routerLink]="['/login']">
+        <mat-icon>exit_to_app</mat-icon>
+        <span *ngIf="!mobile">Log In</span>
+      </button>
+      <button mat-button *ngIf="isLoggedIn" (click)="logOut()">
+        <mat-icon>power_settings_new</mat-icon>
+        <span *ngIf="!mobile">Log Out</span>
+      </button>
       <button mat-button (click)="onShowDialog()">
         <mat-icon>error_outline</mat-icon>
       </button>

@@ -1,7 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser'
 import { HttpClientModule } from '@angular/common/http'
 import { FormsModule } from '@angular/forms'
-// import { SettingsModule } from './settings/settings.module'
 import { NgModule } from '@angular/core'
 import { RouterModule } from '@angular/router'
 import { MaterialModule } from './material.module'
@@ -21,6 +20,9 @@ import { DataService } from './common/data.service'
 import { PageNotFoundComponent } from './common/page-not-found/page-not-found.component'
 import { HomeComponent } from './home/home.component'
 import { InformationDialogComponent } from './information-dialog/information-dialog.component'
+import { AuthService } from './common/auth.service'
+import { AuthGuard } from './settings/auth.guard'
+import { LoginComponent } from './common/login/login.component'
 
 @NgModule({
   declarations: [
@@ -32,7 +34,8 @@ import { InformationDialogComponent } from './information-dialog/information-dia
     PageNotFoundComponent,
     HomeComponent,
     ConfirmationDialogComponent,
-    InformationDialogComponent
+    InformationDialogComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -42,8 +45,10 @@ import { InformationDialogComponent } from './information-dialog/information-dia
       { path: 'home', component: HomeComponent },
       {
         path: 'settings',
+        canActivate: [AuthGuard],
         loadChildren: () => import('./settings/settings.module').then(m => m.SettingsModule)
       },
+      { path: 'login', component: LoginComponent },
       { path: '', redirectTo: 'home', pathMatch: 'full' },
       { path: '**', component: PageNotFoundComponent }
     ]),
@@ -54,7 +59,7 @@ import { InformationDialogComponent } from './information-dialog/information-dia
     MatPasswordStrengthModule.forRoot(),
     FontAwesomeModule
   ],
-  providers: [TokenService, ConfigService, DataService],
+  providers: [TokenService, ConfigService, DataService, AuthService],
   bootstrap: [AppComponent],
   entryComponents: [ConfirmationDialogComponent, InformationDialogComponent]
 })
