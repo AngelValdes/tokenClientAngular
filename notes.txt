@@ -5,7 +5,6 @@ Material Icons
  https://material.io/resources/icons/?style=baseline
  http://materialdesignicons.com
 
-
 <mat-icon>favorite</mat-icon>
 https://materializecss.com/icons.html
 
@@ -15,4 +14,4 @@ https://material.angular.io/guide/typography
 Material extensions
 https://github.com/angular-material-extensions
 
-
+todo: load spinner, message log with secondary route

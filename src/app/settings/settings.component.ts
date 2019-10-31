@@ -12,7 +12,9 @@ declare var __env: any
 export class SettingsComponent implements OnInit {
   form: FormGroup
   favoriteUrls = []
-  // favoriteUrl
+  get isDirty(): boolean {
+    return this.form.get('favoriteUrl').value !== ''
+  }
   constructor(
     private configService: ConfigService,
     public dialog: MatDialog,

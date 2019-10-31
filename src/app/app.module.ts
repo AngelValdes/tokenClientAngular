@@ -21,8 +21,9 @@ import { PageNotFoundComponent } from './common/page-not-found/page-not-found.co
 import { HomeComponent } from './home/home.component'
 import { InformationDialogComponent } from './information-dialog/information-dialog.component'
 import { AuthService } from './common/auth.service'
-import { AuthGuard } from './settings/auth.guard'
+import { AuthGuard } from './common/auth.guard'
 import { LoginComponent } from './common/login/login.component'
+// import { SettingsAddingGuard } from './settings/settings-adding.guard'
 
 @NgModule({
   declarations: [
