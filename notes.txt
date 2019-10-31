@@ -14,4 +14,4 @@ https://material.angular.io/guide/typography
 Material extensions
 https://github.com/angular-material-extensions
 
-todo: load spinner, message log with secondary route
+todo: load spinner on route resolver to settings data, message log with secondary route

@@ -1,3 +1,5 @@
+<fa-icon [icon]="faSpinner" class="fa-spinner spinner" *ngIf="loading"></fa-icon>
+<!--*ngIf="loading"-->
 <div style="text-align:center">
   <h1>Welcome to {{ title }}!</h1>
 </div>
@@ -5,8 +7,7 @@
   <mat-toolbar color="primary">
     <mat-toolbar-row>
       <button mat-button [routerLink]="['/home']" routerLinkActive="router-link-active">
-        <mat-icon>home</mat-icon> <span *ngIf="!mobile">Home</span
-        ><!--*ngIf="!mobile"-->
+        <mat-icon>home</mat-icon> <span *ngIf="!mobile">Home</span>
       </button>
       <button mat-button [routerLink]="['/settings']" routerLinkActive="router-link-active">
         <mat-icon>settings</mat-icon> <span *ngIf="!mobile">Settings</span>
