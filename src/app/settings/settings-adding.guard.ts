@@ -21,21 +21,11 @@ export class SettingsAddingGuard implements CanDeactivate<SettingsComponent> {
     currentState: RouterStateSnapshot,
     nextState?: RouterStateSnapshot
   ): boolean | UrlTree | Observable<boolean | UrlTree> | Promise<boolean | UrlTree> {
-    /*     if (component.isDirty) {
-      const dialogRef = this.dialog.open(ConfirmationDialogComponent)
-      dialogRef.afterClosed().subscribe(result => {
-        if (!result) {
-          return false
-        } else {
-          return true
-        }
-      })
-    } else {
-      return true
-    } */
     return new Promise(resolve => {
       if (component.isDirty) {
-        const dialogRef = this.dialog.open(ConfirmationDialogComponent)
+        const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+          data: { message: 'Lose changes?' }
+        })
         dialogRef.afterClosed().subscribe(result => {
           resolve(result)
         })

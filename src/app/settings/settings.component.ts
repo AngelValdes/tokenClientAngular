@@ -53,7 +53,9 @@ export class SettingsComponent implements OnInit {
     }
   }
   onDelete(url) {
-    const dialogRef = this.dialog.open(ConfirmationDialogComponent)
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      data: { message: 'Are you sure?' }
+    })
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
