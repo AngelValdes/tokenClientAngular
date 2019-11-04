@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser'
 import { HttpClientModule } from '@angular/common/http'
 import { FormsModule } from '@angular/forms'
 import { NgModule } from '@angular/core'
-import { RouterModule } from '@angular/router'
+import { RouterModule, PreloadAllModules } from '@angular/router'
 import { MaterialModule } from './material.module'
 import { MatPasswordStrengthModule } from '@angular-material-extensions/password-strength'
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome'
@@ -23,7 +23,7 @@ import { InformationDialogComponent } from './information-dialog/information-dia
 import { AuthService } from './common/auth.service'
 import { AuthGuard } from './common/auth.guard'
 import { LoginComponent } from './common/login/login.component'
-// import { SettingsAddingGuard } from './settings/settings-adding.guard'
+import { SettingsResolver } from './settings/settings-resolver.service'
 
 @NgModule({
   declarations: [
@@ -42,18 +42,26 @@ import { LoginComponent } from './common/login/login.component'
     BrowserModule,
     HttpClientModule,
     FormsModule,
-    RouterModule.forRoot([
-      { path: 'home', component: HomeComponent },
-      {
-        path: 'settings',
-        canActivate: [AuthGuard],
-        loadChildren: () => import('./settings/settings.module').then(m => m.SettingsModule)
-      },
-      { path: 'login', component: LoginComponent },
-      { path: '', redirectTo: 'home', pathMatch: 'full' },
-      { path: '**', component: PageNotFoundComponent }
-    ]),
-    // SettingsModule,
+    RouterModule.forRoot(
+      [
+        { path: 'home', component: HomeComponent },
+        {
+          path: 'settings',
+          // canActivate: [AuthGuard],
+          canLoad: [AuthGuard],
+          resolve: { apiUrls: SettingsResolver },
+          loadChildren: () => import('./settings/settings.module').then(m => m.SettingsModule)
+        },
+        {
+          path: 'resources',
+          loadChildren: () => import('./resources/resources.module').then(m => m.ResourcesModule)
+        },
+        { path: 'login', component: LoginComponent },
+        { path: '', redirectTo: 'home', pathMatch: 'full' },
+        { path: '**', component: PageNotFoundComponent }
+      ],
+      { preloadingStrategy: PreloadAllModules }
+    ),
     NoopAnimationsModule,
     BrowserAnimationsModule,
     MaterialModule,

@@ -4,6 +4,7 @@ import { Environments } from '../common/environments'
 import { MatDialog } from '@angular/material/dialog'
 import { ConfirmationDialogComponent } from '../common/confirmation-dialog/confirmation-dialog.component'
 import { FormGroup, FormBuilder, Validators } from '@angular/forms'
+import { ActivatedRoute } from '@angular/router'
 declare var __env: any
 @Component({
   templateUrl: './settings.component.html',
@@ -18,7 +19,8 @@ export class SettingsComponent implements OnInit {
   constructor(
     private configService: ConfigService,
     public dialog: MatDialog,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private route: ActivatedRoute
   ) {
     this.createForm()
   }
@@ -29,22 +31,18 @@ export class SettingsComponent implements OnInit {
     })
   }
   ngOnInit() {
-    this.configService.getConfig().subscribe(
-      (result: Environments) => {
-        switch (__env.name) {
-          case 'dev':
-            this.favoriteUrls = result.dev.apiUrls
-            break
-          case 'stag':
-            this.favoriteUrls = result.stag.apiUrls
-            break
-          case 'prod':
-            this.favoriteUrls = result.prod.apiUrls
-            break
-        }
-      },
-      error => {}
-    )
+    const result: Environments = this.route.snapshot.data.apiUrls
+    switch (__env.name) {
+      case 'dev':
+        this.favoriteUrls = result.dev.apiUrls
+        break
+      case 'stag':
+        this.favoriteUrls = result.stag.apiUrls
+        break
+      case 'prod':
+        this.favoriteUrls = result.prod.apiUrls
+        break
+    }
   }
   onAdd() {
     if (this.form.valid) {
