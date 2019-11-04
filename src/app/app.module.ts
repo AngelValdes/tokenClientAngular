@@ -47,7 +47,7 @@ import { SettingsResolver } from './settings/settings-resolver.service'
         { path: 'home', component: HomeComponent },
         {
           path: 'settings',
-          // canActivate: [AuthGuard],
+          canActivate: [AuthGuard],
           canLoad: [AuthGuard],
           resolve: { apiUrls: SettingsResolver },
           loadChildren: () => import('./settings/settings.module').then(m => m.SettingsModule)
